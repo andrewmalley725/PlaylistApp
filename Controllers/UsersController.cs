@@ -24,14 +24,13 @@ namespace PlaylistApp.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
-        public async Task<IActionResult> Get(string username)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            var data = await Db.Users.FirstOrDefaultAsync(x => x.Username == username);
+            var data = await Db.Users.FirstOrDefaultAsync(x => x.UserId == id);
+
             return new OkObjectResult(data);
         }
-
-        
 
         // POST api/values
         [HttpPost]

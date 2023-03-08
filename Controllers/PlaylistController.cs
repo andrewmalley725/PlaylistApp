@@ -34,10 +34,12 @@ namespace PlaylistApp.Controllers
         {
             var playlist = await Db.Playlists.Include(x => x.User).FirstOrDefaultAsync(x => x.UserId == userid);
 
+            var playlistSongs = await Db.PlaylistSongs.Include(x => x.Song).Where(x => x.playListId == playlist.PlaylistId).Select(x => x.Song).ToListAsync();
+
             var data = new
             {
                 user = playlist.User.Username,
-                songs = await Db.PlaylistSongs.Include(x => x.Song).Where(x => x.playListId == playlist.PlaylistId).ToListAsync()
+                songs = playlistSongs
             };
 
             return new OkObjectResult(data);
