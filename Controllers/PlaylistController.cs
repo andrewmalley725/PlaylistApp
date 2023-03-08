@@ -21,23 +21,18 @@ namespace PlaylistApp.Controllers
             Db = temp;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Get(int userid)
-        //{
-        //    var data = await Db.Playlists.Include(x => x.User).ToListAsync();
-
-        //    return new OkObjectResult(data);
-        //}
         //GET: api/values
        [HttpGet]
         public async Task<IActionResult> Get(int userid)
         {
             var playlist = await Db.Playlists.Include(x => x.User).FirstOrDefaultAsync(x => x.UserId == userid);
 
+            var playlistSongs = await Db.PlaylistSongs.Include(x => x.Song).Where(x => x.playListId == playlist.PlaylistId).Select(x => x.Song).ToListAsync();
+
             var data = new
             {
                 user = playlist.User.Username,
-                songs = await Db.PlaylistSongs.Include(x => x.Song).Where(x => x.playListId == playlist.PlaylistId).ToListAsync()
+                songs = playlistSongs
             };
 
             return new OkObjectResult(data);
@@ -61,7 +56,7 @@ namespace PlaylistApp.Controllers
 
             await Db.SaveChangesAsync();
 
-            return Ok("Added to " + user.Username);
+            return Ok("Added to " + user.Username + "'s playlist");
         }
 
         // PUT api/values/5

@@ -51,7 +51,7 @@ namespace PlaylistApp.Controllers
 
                 previousPage = page >= 2 ? (page - 1).ToString() : "NaN",
 
-                totalPages = results.Count() / pageSize,
+                totalPages = results.Count() / pageSize, //FIX
 
                 songs = songList
             };
