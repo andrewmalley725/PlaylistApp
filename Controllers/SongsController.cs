@@ -33,6 +33,7 @@ namespace PlaylistApp.Controllers
                 && x.Album.ToLower().Contains(album.ToLower())
                 && x.Genre.ToLower().Contains(genre.ToLower())
                     )
+                .OrderBy(x => x.Genre)
                 .ToListAsync();
 
             var songList = results
@@ -49,6 +50,8 @@ namespace PlaylistApp.Controllers
                 nextPage = results.Count() > pageSize ? (page + 1).ToString() : "NaN",
 
                 previousPage = page >= 2 ? (page - 1).ToString() : "NaN",
+
+                totalPages = results.Count() / pageSize,
 
                 songs = songList
             };

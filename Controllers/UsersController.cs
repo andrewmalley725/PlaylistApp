@@ -25,18 +25,13 @@ namespace PlaylistApp.Controllers
 
         // GET: api/values
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string username)
         {
-            var data = await Db.Users.ToListAsync();
+            var data = await Db.Users.FirstOrDefaultAsync(x => x.Username == username);
             return new OkObjectResult(data);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        
 
         // POST api/values
         [HttpPost]
@@ -65,6 +60,14 @@ namespace PlaylistApp.Controllers
             };
 
             Db.Users.Add(newUser);
+
+            var playlist = new Playlist
+            {
+                UserId = newUser.UserId,
+                User = newUser
+            };
+
+            Db.Playlists.Add(playlist);
 
             await Db.SaveChangesAsync();
 

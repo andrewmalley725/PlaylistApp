@@ -13,9 +13,6 @@ namespace PlaylistApp.Models
 		[Required]
 		public int UserId { get; set; }
 		public User User { get; set; }
-
-		[Required]
-		public List<Song> Songs { get; set; }
 	}
 }
 
